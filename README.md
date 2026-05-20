@@ -1,17 +1,23 @@
-# Email Sender
+# MiniProjects
 
-A lightweight Python utility for sending emails via Gmail SMTP.
+A collection of lightweight Python utilities for everyday tasks.
 
 ## Tech Stack
 
-| Component     | Technology             |
-|--------------|------------------------|
-| Language      | Python 3.x             |
-| Email Library | smtplib (stdlib)        |
-| Protocol      | SMTP with TLS          |
+| Component       | Technology              |
+|----------------|------------------------|
+| Language       | Python 3.x             |
+| Email          | smtplib (stdlib)       |
+| Text-to-Speech | pywin32 (SAPI)         |
+| Platform       | Windows                |
 
-## Architecture
+## Utilities
 
+### 1. Email Sender (`send_email.py`)
+
+Send emails via Gmail SMTP with TLS encryption.
+
+**Architecture:**
 ```
 ┌─────────────────────────────────────────┐
 │           send_email.py                 │
@@ -34,41 +40,86 @@ A lightweight Python utility for sending emails via Gmail SMTP.
 └─────────────────────────────────────────┘
 ```
 
-## Setup
-
-1. **Install Python 3.x** (smtplib is included in stdlib)
-
-2. **Configure credentials** in `send_email.py`:
+**Setup:**
+1. Configure credentials in `send_email.py`:
    ```python
    email = "your_email@gmail.com"
    password = "your_16_char_app_password"
    ```
+2. Generate Gmail App Password at [myaccount.google.com/apppasswords](https://myaccount.google.com/apppasswords)
 
-3. **Generate Gmail App Password**:
-   - Go to [myaccount.google.com/apppasswords](https://myaccount.google.com/apppasswords)
-   - Create a new App Password for "Mail"
-   - Use this 16-character password (no spaces)
-
-## Usage
-
+**Usage:**
 ```python
 from send_email import send_email
 
 send_email("recipient@example.com", "Subject Here", "Email body text")
 ```
 
-## Configuration
+**Dependencies:** smtplib (stdlib)
 
-| Variable  | Description                          |
-|-----------|--------------------------------------|
-| `email`   | Sender Gmail address                 |
-| `password`| 16-character Gmail App Password      |
-| `to`      | Recipient email address              |
-| `subject` | Email subject line                   |
-| `body`    | Email message content                |
+---
+
+### 2. Text-to-Voice (`text_to_voice.py`)
+
+Convert text to speech using Windows SAPI (Speech API).
+
+**Architecture:**
+```
+┌─────────────────────────────────────────┐
+│         text_to_voice.py                │
+├─────────────────────────────────────────┤
+│  audiobook(text)                        │
+│         │                              │
+│         ▼                              │
+│  ┌─────────────────┐                   │
+│  │  Dispatch SAPI   │                   │
+│  │  SpVoice Object  │                   │
+│  └────────┬────────┘                   │
+│           │                             │
+│           ▼                             │
+│  ┌─────────────────┐                   │
+│  │  Windows Audio   │                   │
+│  │  Output Device   │                   │
+│  └─────────────────┘                   │
+└─────────────────────────────────────────┘
+```
+
+**Setup:**
+1. Install pywin32: `pip install pywin32`
+
+**Usage:**
+```python
+from text_to_voice import audiobook
+
+audiobook("This is a book text.")
+```
+
+**Dependencies:** pywin32
+
+---
+
+## Installation
+
+```bash
+pip install -r requirements.txt
+```
+
+## Project Structure
+
+```
+MiniProjects/
+├── README.md
+├── requirements.txt
+├── send_email.py
+└── text_to_voice.py
+```
 
 ## Security Notes
 
 - **Never commit real credentials** to version control
 - Use Gmail App Passwords, not your main password
-- Consider environment variables for production use
+- Consider environment variables for sensitive data
+
+## License
+
+MIT License

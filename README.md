@@ -7,9 +7,11 @@ A collection of lightweight Python utilities for everyday tasks.
 | Component         | Technology              |
 |-------------------|------------------------|
 | Language          | Python 3.x             |
+| HTTP Client       | requests (stdlib- equiv)|
 | Email             | smtplib (stdlib)       |
 | Text-to-Speech    | pywin32 (Windows SAPI) |
 | Wikipedia API     | wikipedia (pypi)       |
+| News API          | newsapi.org           |
 | Platform          | Windows                |
 
 ## Project Structure
@@ -20,7 +22,8 @@ MiniProjects/
 ├── requirements.txt
 ├── send_email.py       # Email sending utility
 ├── text_to_voice.py    # Text-to-speech utility
-└── wiki_py.py          # Wikipedia search utility
+├── wiki_py.py          # Wikipedia search utility
+└── news_repo.py        # News fetching utility
 ```
 
 ## Utilities
@@ -134,6 +137,43 @@ Enter a topic when prompted to get a 2-sentence summary with a link to the full 
 
 ---
 
+### 4. News Fetcher (`news_repo.py`)
+
+Fetch latest news articles using NewsAPI.
+
+**Architecture:**
+```
+┌─────────────────────────────────────────────────────┐
+│                     news_repo.py                    │
+├─────────────────────────────────────────────────────┤
+│                                                     │
+│   ┌─────────────┐      ┌─────────────────────────┐ │
+│   │  API Key    │─────▶│  requests.get()          │ │
+│   └─────────────┘      │  newsapi.org/v2/everything│ │
+│                        └───────────┬─────────────┘ │
+│                                    │               │
+│                                    ▼               │
+│                        ┌─────────────────────────┐ │
+│                        │    NewsAPI Server        │ │
+│                        │    newsapi.org           │ │
+│                        └─────────────────────────┘ │
+└─────────────────────────────────────────────────────┘
+```
+
+**Setup:**
+1. Get a free API key from [newsapi.org](https://newsapi.org)
+2. Replace `YOUR_API_KEY` in `news_repo.py`
+
+**Usage:**
+```bash
+python news_repo.py
+```
+Fetches top 10 Python-related news articles with a 5-second delay between each display.
+
+**Note:** The free tier has rate limits. Uses 5-second sleep between article displays to respect API limits.
+
+---
+
 ## Installation
 
 ```bash
@@ -144,15 +184,18 @@ pip install -r requirements.txt
 
 | Package     | Purpose                    | Source  |
 |-------------|---------------------------|---------|
-| pywin32     | Windows COM interface     | pypi    |
+| requests    | HTTP client               | stdlib  |
+| pywin32     | Windows COM interface    | pypi    |
 | wikipedia   | Wikipedia API wrapper     | pypi    |
-| smtplib     | Email sending (built-in)  | stdlib  |
+| smtplib     | Email sending            | stdlib  |
+| time        | Sleep/delay functions    | stdlib  |
 
 ## Security Notes
 
 - **Never commit real credentials** to version control
 - Use Gmail App Passwords, not your main password
-- Consider environment variables for sensitive data
+- Store API keys in environment variables
+- Consider `.env` files with python-dotenv for sensitive data
 
 ## License
 

@@ -7,11 +7,12 @@ A collection of lightweight Python utilities for everyday tasks.
 | Component         | Technology              |
 |-------------------|------------------------|
 | Language          | Python 3.x             |
-| HTTP Client       | requests (stdlib- equiv)|
+| HTTP Client       | requests               |
 | Email             | smtplib (stdlib)       |
 | Text-to-Speech    | pywin32 (Windows SAPI) |
 | Wikipedia API     | wikipedia (pypi)       |
 | News API          | newsapi.org           |
+| System Control    | os (stdlib)           |
 | Platform          | Windows                |
 
 ## Project Structure
@@ -23,8 +24,11 @@ MiniProjects/
 ├── send_email.py       # Email sending utility
 ├── text_to_voice.py    # Text-to-speech utility
 ├── wiki_py.py          # Wikipedia search utility
-└── news_repo.py        # News fetching utility
+├── news_repo.py        # News fetching utility
+└── shut_sleep.py       # System control utility
 ```
+
+---
 
 ## Utilities
 
@@ -34,21 +38,21 @@ Send emails via Gmail SMTP with TLS encryption.
 
 **Architecture:**
 ```
-┌─────────────────────────────────────────────────────┐
-│                    send_email.py                     │
-├─────────────────────────────────────────────────────┤
-│                                                     │
-│   ┌─────────────┐      ┌─────────────────────────┐ │
-│   │ Credentials │─────▶│  smtplib.SMTP Client    │ │
-│   │(email/pass) │      │  smtp.gmail.com:587     │ │
-│   └─────────────┘      │  TLS Encryption          │ │
-│                        └───────────┬─────────────┘ │
-│                                    │               │
-│                                    ▼               │
-│                        ┌─────────────────────────┐ │
-│                        │     Gmail SMTP Server    │ │
-│                        └─────────────────────────┘ │
-└─────────────────────────────────────────────────────┘
+┌────────────────────────────────────────────────────────┐
+│                     send_email.py                      │
+├────────────────────────────────────────────────────────┤
+│                                                        │
+│   ┌──────────────┐    ┌────────────────────────────┐  │
+│   │ Credentials  │───▶│    smtplib.SMTP Client      │  │
+│   │(email/pass)  │    │    smtp.gmail.com:587       │  │
+│   └──────────────┘    │    TLS Encryption           │  │
+│                       └─────────────┬──────────────┘  │
+│                                   │                   │
+│                                   ▼                   │
+│                       ┌────────────────────────────┐  │
+│                       │     Gmail SMTP Server       │  │
+│                       └────────────────────────────┘  │
+└────────────────────────────────────────────────────────┘
 ```
 
 **Setup:**
@@ -74,25 +78,27 @@ Convert text to speech using Windows SAPI (Speech API).
 
 **Architecture:**
 ```
-┌─────────────────────────────────────────────────────┐
-│                   text_to_voice.py                  │
-├─────────────────────────────────────────────────────┤
-│                                                     │
-│   ┌─────────────┐      ┌─────────────────────────┐ │
-│   │ Text Input  │─────▶│  Dispatch("SAPI.SpVoice")│ │
-│   └─────────────┘      │  COM Object              │ │
-│                        └───────────┬─────────────┘ │
-│                                    │               │
-│                                    ▼               │
-│                        ┌─────────────────────────┐ │
-│                        │  Windows Audio Output   │ │
-│                        │  (Speakers/Headphones)   │ │
-│                        └─────────────────────────┘ │
-└─────────────────────────────────────────────────────┘
+┌────────────────────────────────────────────────────────┐
+│                    text_to_voice.py                     │
+├────────────────────────────────────────────────────────┤
+│                                                        │
+│   ┌──────────────┐    ┌────────────────────────────┐  │
+│   │  Text Input  │───▶│  Dispatch("SAPI.SpVoice")  │  │
+│   └──────────────┘    │  COM Object                │  │
+│                       └─────────────┬──────────────┘  │
+│                                   │                   │
+│                                   ▼                   │
+│                       ┌────────────────────────────┐  │
+│                       │   Windows Audio Output     │  │
+│                       │   (Speakers/Headphones)    │  │
+│                       └────────────────────────────┘  │
+└────────────────────────────────────────────────────────┘
 ```
 
 **Setup:**
-1. Install pywin32: `pip install pywin32`
+```bash
+pip install pywin32
+```
 
 **Usage:**
 ```python
@@ -109,25 +115,27 @@ Search and retrieve summaries from Wikipedia.
 
 **Architecture:**
 ```
-┌─────────────────────────────────────────────────────┐
-│                     wiki_py.py                      │
-├─────────────────────────────────────────────────────┤
-│                                                     │
-│   ┌─────────────┐      ┌─────────────────────────┐ │
-│   │ Topic Input │─────▶│  wikipedia.summary()     │ │
-│   └─────────────┘      │  wikipedia.page()        │ │
-│                        └───────────┬─────────────┘ │
-│                                    │               │
-│                                    ▼               │
-│                        ┌─────────────────────────┐ │
-│                        │   Wikipedia API         │ │
-│                        │   wikipedia.org         │ │
-│                        └─────────────────────────┘ │
-└─────────────────────────────────────────────────────┘
+┌────────────────────────────────────────────────────────┐
+│                      wiki_py.py                        │
+├────────────────────────────────────────────────────────┤
+│                                                        │
+│   ┌──────────────┐    ┌────────────────────────────┐  │
+│   │ Topic Input  │───▶│  wikipedia.summary()       │  │
+│   └──────────────┘    │  wikipedia.page()          │  │
+│                       └─────────────┬──────────────┘  │
+│                                   │                   │
+│                                   ▼                   │
+│                       ┌────────────────────────────┐  │
+│                       │     Wikipedia API          │  │
+│                       │     wikipedia.org          │  │
+│                       └────────────────────────────┘  │
+└────────────────────────────────────────────────────────┘
 ```
 
 **Setup:**
-1. Install wikipedia: `pip install wikipedia`
+```bash
+pip install wikipedia
+```
 
 **Usage:**
 ```bash
@@ -143,21 +151,21 @@ Fetch latest news articles using NewsAPI.
 
 **Architecture:**
 ```
-┌─────────────────────────────────────────────────────┐
-│                     news_repo.py                    │
-├─────────────────────────────────────────────────────┤
-│                                                     │
-│   ┌─────────────┐      ┌─────────────────────────┐ │
-│   │  API Key    │─────▶│  requests.get()          │ │
-│   └─────────────┘      │  newsapi.org/v2/everything│ │
-│                        └───────────┬─────────────┘ │
-│                                    │               │
-│                                    ▼               │
-│                        ┌─────────────────────────┐ │
-│                        │    NewsAPI Server        │ │
-│                        │    newsapi.org           │ │
-│                        └─────────────────────────┘ │
-└─────────────────────────────────────────────────────┘
+┌────────────────────────────────────────────────────────┐
+│                      news_repo.py                      │
+├────────────────────────────────────────────────────────┤
+│                                                        │
+│   ┌──────────────┐    ┌────────────────────────────┐  │
+│   │   API Key    │───▶│  requests.get()             │  │
+│   └──────────────┘    │  newsapi.org/v2/everything  │  │
+│                       └─────────────┬──────────────┘  │
+│                                   │                   │
+│                                   ▼                   │
+│                       ┌────────────────────────────┐  │
+│                       │      NewsAPI Server         │  │
+│                       │      newsapi.org            │  │
+│                       └────────────────────────────┘  │
+└────────────────────────────────────────────────────────┘
 ```
 
 **Setup:**
@@ -170,7 +178,36 @@ python news_repo.py
 ```
 Fetches top 10 Python-related news articles with a 5-second delay between each display.
 
-**Note:** The free tier has rate limits. Uses 5-second sleep between article displays to respect API limits.
+---
+
+### 5. System Control (`shut_sleep.py`)
+
+Control system power state (shutdown or sleep).
+
+**Architecture:**
+```
+┌────────────────────────────────────────────────────────┐
+│                      shut_sleep.py                     │
+├────────────────────────────────────────────────────────┤
+│                                                        │
+│   ┌──────────────┐    ┌────────────────────────────┐  │
+│   │  os.system() │───▶│  shutdown /s /t 1          │  │
+│   └──────────────┘    │  (Windows Shutdown)        │  │
+│                       └────────────────────────────┘  │
+│                                                        │
+│   ┌──────────────┐    ┌────────────────────────────┐  │
+│   │  os.system() │───▶│  rundll32 powrprof.dll      │  │
+│   └──────────────┘    │  SetSuspendState (Sleep)    │  │
+│                       └────────────────────────────┘  │
+└────────────────────────────────────────────────────────┘
+```
+
+**Usage:**
+```bash
+python shut_sleep.py
+```
+
+**Note:** Uncomment the desired function before running. Shutdown executes immediately with 1-second delay.
 
 ---
 
@@ -189,6 +226,9 @@ pip install -r requirements.txt
 | wikipedia   | Wikipedia API wrapper     | pypi    |
 | smtplib     | Email sending            | stdlib  |
 | time        | Sleep/delay functions    | stdlib  |
+| os          | System commands          | stdlib  |
+
+---
 
 ## Security Notes
 
@@ -196,6 +236,8 @@ pip install -r requirements.txt
 - Use Gmail App Passwords, not your main password
 - Store API keys in environment variables
 - Consider `.env` files with python-dotenv for sensitive data
+
+---
 
 ## License
 

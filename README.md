@@ -32,9 +32,10 @@ MiniProjects/
 ├── say_name_on_startup.py   # Startup greeting utility
 ├── png_2_txt.py             # Image to ASCII art utility
 ├── trans_with_google.py     # Translation utility
-├── self_destructive.py     # File deletion utility
+├── self_destructive.py      # File deletion utility
 ├── notify.py                # Desktop notification utility
-└── png_to_jpg.py            # Image format conversion utility
+├── png_to_jpg.py            # Image format conversion utility
+└── wifi_hack.py             # WiFi password viewer utility
 ```
 
 ---
@@ -205,8 +206,8 @@ Control system power state (shutdown or sleep).
 │                       └────────────────────────────┘   │
 │                                                        │
 │   ┌──────────────┐    ┌────────────────────────────┐   │
-│   │  os.system() │───▶│  rundll32 powrprof.dll     │   │
-│   └──────────────┘    │  SetSuspendState (Sleep)   │   │
+│   │  os.system() │───▶│  rundll32 powrprof.dll      │   │
+│   └──────────────┘    │  SetSuspendState (Sleep)    │   │
 │                       └────────────────────────────┘   │
 └────────────────────────────────────────────────────────┘
 ```
@@ -227,7 +228,7 @@ Speaks a greeting message when Windows starts.
 **Architecture:**
 ```
 ┌────────────────────────────────────────────────────────┐
-│                 say_name_on_startup.py                │
+│                 say_name_on_startup.py                 │
 ├────────────────────────────────────────────────────────┤
 │                                                        │
 │   ┌──────────────┐    ┌────────────────────────────┐   │
@@ -303,7 +304,7 @@ Translate text to any language using Google Translate.
 **Architecture:**
 ```
 ┌────────────────────────────────────────────────────────┐
-│                  trans_with_google.py                 │
+│                  trans_with_google.py                  │
 ├────────────────────────────────────────────────────────┤
 │                                                        │
 │   ┌──────────────┐    ┌────────────────────────────┐   │
@@ -370,8 +371,8 @@ Send desktop notifications using plyer.
 ├────────────────────────────────────────────────────────┤
 │                                                        │
 │   ┌──────────────┐    ┌────────────────────────────┐   │
-│   │  Title/Msg   │───▶│  plyer.notification.notify  │   │
-│   └──────────────┘    │  System Notification API   │   │
+│   │  Title/Msg   │───▶│  plyer.notification.notify │   │
+│   └──────────────┘    │  System Notification API  │   │
 │                       └─────────────┬──────────────┘   │
 │                                   │                    │
 │                                   ▼                    │
@@ -398,11 +399,6 @@ notification.notify(
 )
 ```
 
-**Parameters:**
-- `title`: Notification title
-- `message`: Notification body text
-- `timeout`: Duration in seconds (optional)
-
 ---
 
 ### 11. PNG to JPG Converter (`png_to_jpg.py`)
@@ -412,7 +408,7 @@ Convert PNG images to JPEG format using Pillow.
 **Architecture:**
 ```
 ┌────────────────────────────────────────────────────────┐
-│                      png_to_jpg.py                     │
+│                      png_to_jpg.py                    │
 ├────────────────────────────────────────────────────────┤
 │                                                        │
 │   ┌──────────────┐    ┌────────────────────────────┐   │
@@ -422,8 +418,8 @@ Convert PNG images to JPEG format using Pillow.
 │                                   │                    │
 │                                   ▼                    │
 │                       ┌────────────────────────────┐   │
-│                       │  save("converted.jpeg")   │   │
-│                       │  (JPEG Format)            │   │
+│                       │  save("converted.jpeg")     │   │
+│                       │  (JPEG Format)              │   │
 │                       └────────────────────────────┘   │
 └────────────────────────────────────────────────────────┘
 ```
@@ -442,7 +438,43 @@ jpeg_img = img.convert("RGB")
 jpeg_img.save("converted.jpeg")
 ```
 
-**Note:** PNG with transparency (RGBA) is converted to RGB before JPEG saving since JPEG doesn't support transparency.
+---
+
+### 12. WiFi Password Viewer (`wifi_hack.py`)
+
+View saved WiFi profiles and their passwords on your Windows system.
+
+**Architecture:**
+```
+┌────────────────────────────────────────────────────────┐
+│                      wifi_hack.py                     │
+├────────────────────────────────────────────────────────┤
+│                                                        │
+│   ┌──────────────┐    ┌────────────────────────────┐   │
+│   │ netsh wlan   │───▶│  subprocess.check_output() │   │
+│   │ show profiles│    │  Parse WiFi Profiles       │   │
+│   └──────────────┘    └─────────────┬──────────────┘   │
+│                                   │                    │
+│                                   ▼                    │
+│                       ┌────────────────────────────┐   │
+│                       │  Display Profile | Password │   │
+│                       │  (Table Output)             │   │
+│                       └────────────────────────────┘   │
+└────────────────────────────────────────────────────────┘
+```
+
+**Usage:**
+```bash
+python wifi_hack.py
+```
+
+**Output Example:**
+```
+WiFi_Name_1                  | password123
+WiFi_Name_2                  | No Password
+```
+
+**Note:** This tool only displays WiFi profiles saved on YOUR local machine. Requires administrator privileges for full password visibility.
 
 ---
 
@@ -467,6 +499,7 @@ pip install -r requirements.txt
 | time             | Sleep/delay functions     | stdlib  |
 | os               | System commands          | stdlib  |
 | sys              | Script path access       | stdlib  |
+| subprocess       | Execute system commands  | stdlib  |
 
 ---
 
@@ -475,7 +508,7 @@ pip install -r requirements.txt
 - **Never commit real credentials** to version control
 - Use Gmail App Passwords, not your main password
 - Store API keys in environment variables
-- Consider `.env` files with python-dotenv for sensitive data
+- WiFi tool only accesses your own saved profiles
 
 ---
 

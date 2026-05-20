@@ -1,8 +1,6 @@
-smtplib
 pywin32
 wikipedia
 requests
-time
 pywhatkit
 googletrans==4.0.0-rc1
 plyer

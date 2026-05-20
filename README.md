@@ -4,12 +4,24 @@ A collection of lightweight Python utilities for everyday tasks.
 
 ## Tech Stack
 
-| Component       | Technology              |
-|----------------|------------------------|
-| Language       | Python 3.x             |
-| Email          | smtplib (stdlib)       |
-| Text-to-Speech | pywin32 (SAPI)         |
-| Platform       | Windows                |
+| Component         | Technology              |
+|-------------------|------------------------|
+| Language          | Python 3.x             |
+| Email             | smtplib (stdlib)       |
+| Text-to-Speech    | pywin32 (Windows SAPI) |
+| Wikipedia API     | wikipedia (pypi)       |
+| Platform          | Windows                |
+
+## Project Structure
+
+```
+MiniProjects/
+├── README.md
+├── requirements.txt
+├── send_email.py       # Email sending utility
+├── text_to_voice.py    # Text-to-speech utility
+└── wiki_py.py          # Wikipedia search utility
+```
 
 ## Utilities
 
@@ -19,25 +31,21 @@ Send emails via Gmail SMTP with TLS encryption.
 
 **Architecture:**
 ```
-┌─────────────────────────────────────────┐
-│           send_email.py                 │
-├─────────────────────────────────────────┤
-│  User Config (email/password)           │
-├─────────────────────────────────────────┤
-│  send_email(to, subject, body)          │
-│         │                              │
-│         ▼                              │
-│  ┌─────────────────┐                   │
-│  │  SMTP Client    │                   │
-│  │  smtp.gmail.com │                   │
-│  │  Port 587 (TLS) │                   │
-│  └────────┬────────┘                   │
-│           │                             │
-│           ▼                             │
-│  ┌─────────────────┐                   │
-│  │  Gmail Server   │                   │
-│  └─────────────────┘                   │
-└─────────────────────────────────────────┘
+┌─────────────────────────────────────────────────────┐
+│                    send_email.py                     │
+├─────────────────────────────────────────────────────┤
+│                                                     │
+│   ┌─────────────┐      ┌─────────────────────────┐ │
+│   │ Credentials │─────▶│  smtplib.SMTP Client    │ │
+│   │(email/pass) │      │  smtp.gmail.com:587     │ │
+│   └─────────────┘      │  TLS Encryption          │ │
+│                        └───────────┬─────────────┘ │
+│                                    │               │
+│                                    ▼               │
+│                        ┌─────────────────────────┐ │
+│                        │     Gmail SMTP Server    │ │
+│                        └─────────────────────────┘ │
+└─────────────────────────────────────────────────────┘
 ```
 
 **Setup:**
@@ -55,8 +63,6 @@ from send_email import send_email
 send_email("recipient@example.com", "Subject Here", "Email body text")
 ```
 
-**Dependencies:** smtplib (stdlib)
-
 ---
 
 ### 2. Text-to-Voice (`text_to_voice.py`)
@@ -65,23 +71,21 @@ Convert text to speech using Windows SAPI (Speech API).
 
 **Architecture:**
 ```
-┌─────────────────────────────────────────┐
-│         text_to_voice.py                │
-├─────────────────────────────────────────┤
-│  audiobook(text)                        │
-│         │                              │
-│         ▼                              │
-│  ┌─────────────────┐                   │
-│  │  Dispatch SAPI   │                   │
-│  │  SpVoice Object  │                   │
-│  └────────┬────────┘                   │
-│           │                             │
-│           ▼                             │
-│  ┌─────────────────┐                   │
-│  │  Windows Audio   │                   │
-│  │  Output Device   │                   │
-│  └─────────────────┘                   │
-└─────────────────────────────────────────┘
+┌─────────────────────────────────────────────────────┐
+│                   text_to_voice.py                  │
+├─────────────────────────────────────────────────────┤
+│                                                     │
+│   ┌─────────────┐      ┌─────────────────────────┐ │
+│   │ Text Input  │─────▶│  Dispatch("SAPI.SpVoice")│ │
+│   └─────────────┘      │  COM Object              │ │
+│                        └───────────┬─────────────┘ │
+│                                    │               │
+│                                    ▼               │
+│                        ┌─────────────────────────┐ │
+│                        │  Windows Audio Output   │ │
+│                        │  (Speakers/Headphones)   │ │
+│                        └─────────────────────────┘ │
+└─────────────────────────────────────────────────────┘
 ```
 
 **Setup:**
@@ -94,7 +98,39 @@ from text_to_voice import audiobook
 audiobook("This is a book text.")
 ```
 
-**Dependencies:** pywin32
+---
+
+### 3. Wikipedia Search (`wiki_py.py`)
+
+Search and retrieve summaries from Wikipedia.
+
+**Architecture:**
+```
+┌─────────────────────────────────────────────────────┐
+│                     wiki_py.py                      │
+├─────────────────────────────────────────────────────┤
+│                                                     │
+│   ┌─────────────┐      ┌─────────────────────────┐ │
+│   │ Topic Input │─────▶│  wikipedia.summary()     │ │
+│   └─────────────┘      │  wikipedia.page()        │ │
+│                        └───────────┬─────────────┘ │
+│                                    │               │
+│                                    ▼               │
+│                        ┌─────────────────────────┐ │
+│                        │   Wikipedia API         │ │
+│                        │   wikipedia.org         │ │
+│                        └─────────────────────────┘ │
+└─────────────────────────────────────────────────────┘
+```
+
+**Setup:**
+1. Install wikipedia: `pip install wikipedia`
+
+**Usage:**
+```bash
+python wiki_py.py
+```
+Enter a topic when prompted to get a 2-sentence summary with a link to the full article.
 
 ---
 
@@ -104,15 +140,13 @@ audiobook("This is a book text.")
 pip install -r requirements.txt
 ```
 
-## Project Structure
+## Dependencies
 
-```
-MiniProjects/
-├── README.md
-├── requirements.txt
-├── send_email.py
-└── text_to_voice.py
-```
+| Package     | Purpose                    | Source  |
+|-------------|---------------------------|---------|
+| pywin32     | Windows COM interface     | pypi    |
+| wikipedia   | Wikipedia API wrapper     | pypi    |
+| smtplib     | Email sending (built-in)  | stdlib  |
 
 ## Security Notes
 

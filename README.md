@@ -14,6 +14,7 @@ A collection of lightweight Python utilities for everyday tasks.
 | News API          | newsapi.org           |
 | Image Processing  | pywhatkit             |
 | Translation       | googletrans           |
+| Notifications     | plyer                 |
 | Platform          | Windows                |
 
 ## Project Structure
@@ -31,7 +32,8 @@ MiniProjects/
 ├── say_name_on_startup.py   # Startup greeting utility
 ├── png_2_txt.py             # Image to ASCII art utility
 ├── trans_with_google.py     # Translation utility
-└── self_destructive.py      # File deletion utility
+├── self_destructive.py      # File deletion utility
+└── notify.py                # Desktop notification utility
 ```
 
 ---
@@ -158,7 +160,7 @@ Fetch latest news articles using NewsAPI.
 **Architecture:**
 ```
 ┌────────────────────────────────────────────────────────┐
-│                      news_repo.py                       │
+│                      news_repo.py                      │
 ├────────────────────────────────────────────────────────┤
 │                                                        │
 │   ┌──────────────┐    ┌────────────────────────────┐   │
@@ -193,16 +195,16 @@ Control system power state (shutdown or sleep).
 **Architecture:**
 ```
 ┌────────────────────────────────────────────────────────┐
-│                      shut_sleep.py                      │
+│                      shut_sleep.py                     │
 ├────────────────────────────────────────────────────────┤
 │                                                        │
 │   ┌──────────────┐    ┌────────────────────────────┐   │
-│   │  os.system() │───▶│  shutdown /s /t 1         │   │
+│   │  os.system() │───▶│  shutdown /s /t 1          │   │
 │   └──────────────┘    │  (Windows Shutdown)        │   │
 │                       └────────────────────────────┘   │
 │                                                        │
 │   ┌──────────────┐    ┌────────────────────────────┐   │
-│   │  os.system() │───▶│  rundll32 powrprof.dll      │   │
+│   │  os.system() │───▶│  rundll32 powrprof.dll     │   │
 │   └──────────────┘    │  SetSuspendState (Sleep)    │   │
 │                       └────────────────────────────┘   │
 └────────────────────────────────────────────────────────┘
@@ -224,12 +226,12 @@ Speaks a greeting message when Windows starts.
 **Architecture:**
 ```
 ┌────────────────────────────────────────────────────────┐
-│                 say_name_on_startup.py                 │
+│                 say_name_on_startup.py                │
 ├────────────────────────────────────────────────────────┤
 │                                                        │
 │   ┌──────────────┐    ┌────────────────────────────┐   │
-│   │  Greeting    │───▶│  Dispatch("SAPI.SpVoice")│   │
-│   │  Text        │    │  COM Object               │   │
+│   │  Greeting    │───▶│  Dispatch("SAPI.SpVoice") │   │
+│   │  Text        │    │  COM Object                │   │
 │   └──────────────┘    └─────────────┬──────────────┘   │
 │                                   │                    │
 │                                   ▼                    │
@@ -265,7 +267,7 @@ Convert images to ASCII art using pywhatkit.
 │                                                        │
 │   ┌──────────────┐    ┌────────────────────────────┐   │
 │   │ image.png    │───▶│  pywhatkit.image_to_ascii_art│ │
-│   └──────────────┘    │  OCR + Character Mapping   │   │
+│   └──────────────┘    │  OCR + Character Mapping    │   │
 │                       └─────────────┬──────────────┘   │
 │                                   │                    │
 │                                   ▼                    │
@@ -300,12 +302,12 @@ Translate text to any language using Google Translate.
 **Architecture:**
 ```
 ┌────────────────────────────────────────────────────────┐
-│                  trans_with_google.py                 │
+│                  trans_with_google.py                  │
 ├────────────────────────────────────────────────────────┤
 │                                                        │
 │   ┌──────────────┐    ┌────────────────────────────┐   │
 │   │ Input Text   │───▶│  googletrans.Translator()   │   │
-│   │ (English)    │    │  src="en", dest=<target>   │   │
+│   │ (English)    │    │  src="en", dest=<target>    │   │
 │   └──────────────┘    └─────────────┬──────────────┘   │
 │                                   │                    │
 │                                   ▼                    │
@@ -326,7 +328,7 @@ pip install googletrans==4.0.0-rc1
 python trans_with_google.py
 ```
 
-Follow the prompts to enter text and select target language. Supports 100+ languages including Hindi, Gujarati, Spanish, French, etc.
+Follow the prompts to enter text and select target language. Supports 100+ languages.
 
 ---
 
@@ -341,8 +343,8 @@ Delete the script file itself upon execution.
 ├────────────────────────────────────────────────────────┤
 │                                                        │
 │   ┌──────────────┐    ┌────────────────────────────┐   │
-│   │ sys.argv[0]  │───▶│  os.remove()               │   │
-│   │ (self path)  │    │  Deletes the script file   │   │
+│   │ sys.argv[0]  │───▶│  os.remove()              │   │
+│   │ (self path)  │    │  Deletes the script file  │   │
 │   └──────────────┘    └────────────────────────────┘   │
 └────────────────────────────────────────────────────────┘
 ```
@@ -353,6 +355,52 @@ python self_destructive.py
 ```
 
 **Warning:** This permanently deletes the script file. Use with caution.
+
+---
+
+### 10. Desktop Notification (`notify.py`)
+
+Send desktop notifications using plyer.
+
+**Architecture:**
+```
+┌────────────────────────────────────────────────────────┐
+│                      notify.py                        │
+├────────────────────────────────────────────────────────┤
+│                                                        │
+│   ┌──────────────┐    ┌────────────────────────────┐   │
+│   │  Title/Msg   │───▶│  plyer.notification.notify│   │
+│   └──────────────┘    │  System Notification API   │   │
+│                       └─────────────┬──────────────┘   │
+│                                   │                    │
+│                                   ▼                    │
+│                       ┌────────────────────────────┐   │
+│                       │   Windows Notification      │   │
+│                       │   Center                   │   │
+│                       └────────────────────────────┘   │
+└────────────────────────────────────────────────────────┘
+```
+
+**Setup:**
+```bash
+pip install plyer
+```
+
+**Usage:**
+```python
+from plyer import notification
+
+notification.notify(
+    title="Python",
+    message="I'm learning python programming language.",
+    timeout=3
+)
+```
+
+**Parameters:**
+- `title`: Notification title
+- `message`: Notification body text
+- `timeout`: Duration in seconds (optional)
 
 ---
 
@@ -367,12 +415,13 @@ pip install -r requirements.txt
 | Package          | Purpose                    | Source  |
 |------------------|---------------------------|---------|
 | requests         | HTTP client               | stdlib  |
-| pywin32          | Windows COM interface    | pypi    |
+| pywin32          | Windows COM interface     | pypi    |
 | wikipedia        | Wikipedia API wrapper     | pypi    |
 | pywhatkit        | Image to ASCII conversion | pypi    |
 | googletrans      | Google Translate API     | pypi    |
+| plyer            | Desktop notifications     | pypi    |
 | smtplib          | Email sending            | stdlib  |
-| time             | Sleep/delay functions    | stdlib  |
+| time             | Sleep/delay functions     | stdlib  |
 | os               | System commands          | stdlib  |
 | sys              | Script path access       | stdlib  |
 

@@ -21,11 +21,12 @@ A collection of lightweight Python utilities for everyday tasks.
 MiniProjects/
 ├── README.md
 ├── requirements.txt
-├── send_email.py       # Email sending utility
-├── text_to_voice.py    # Text-to-speech utility
-├── wiki_py.py          # Wikipedia search utility
-├── news_repo.py        # News fetching utility
-└── shut_sleep.py       # System control utility
+├── send_email.py            # Email sending utility
+├── text_to_voice.py         # Text-to-speech utility
+├── wiki_py.py               # Wikipedia search utility
+├── news_repo.py             # News fetching utility
+├── shut_sleep.py            # System control utility
+└── say_name_on_startup.py   # Startup greeting utility
 ```
 
 ---
@@ -42,16 +43,16 @@ Send emails via Gmail SMTP with TLS encryption.
 │                     send_email.py                      │
 ├────────────────────────────────────────────────────────┤
 │                                                        │
-│   ┌──────────────┐    ┌────────────────────────────┐  │
-│   │ Credentials  │───▶│    smtplib.SMTP Client      │  │
-│   │(email/pass)  │    │    smtp.gmail.com:587       │  │
-│   └──────────────┘    │    TLS Encryption           │  │
-│                       └─────────────┬──────────────┘  │
-│                                   │                   │
-│                                   ▼                   │
-│                       ┌────────────────────────────┐  │
-│                       │     Gmail SMTP Server       │  │
-│                       └────────────────────────────┘  │
+│   ┌──────────────┐    ┌────────────────────────────┐   │
+│   │ Credentials  │───▶│    smtplib.SMTP Client      │   │
+│   │(email/pass)  │    │    smtp.gmail.com:587       │   │
+│   └──────────────┘    │    TLS Encryption           │   │
+│                       └─────────────┬──────────────┘   │
+│                                   │                    │
+│                                   ▼                    │
+│                       ┌────────────────────────────┐   │
+│                       │     Gmail SMTP Server       │   │
+│                       └────────────────────────────┘   │
 └────────────────────────────────────────────────────────┘
 ```
 
@@ -79,19 +80,19 @@ Convert text to speech using Windows SAPI (Speech API).
 **Architecture:**
 ```
 ┌────────────────────────────────────────────────────────┐
-│                    text_to_voice.py                     │
+│                    text_to_voice.py                    │
 ├────────────────────────────────────────────────────────┤
 │                                                        │
-│   ┌──────────────┐    ┌────────────────────────────┐  │
-│   │  Text Input  │───▶│  Dispatch("SAPI.SpVoice")  │  │
-│   └──────────────┘    │  COM Object                │  │
-│                       └─────────────┬──────────────┘  │
-│                                   │                   │
-│                                   ▼                   │
-│                       ┌────────────────────────────┐  │
-│                       │   Windows Audio Output     │  │
-│                       │   (Speakers/Headphones)    │  │
-│                       └────────────────────────────┘  │
+│   ┌──────────────┐    ┌────────────────────────────┐   │
+│   │  Text Input  │───▶│  Dispatch("SAPI.SpVoice")  │   │
+│   └──────────────┘    │  COM Object                │   │
+│                       └─────────────┬──────────────┘   │
+│                                   │                    │
+│                                   ▼                    │
+│                       ┌────────────────────────────┐   │
+│                       │   Windows Audio Output     │   │
+│                       │   (Speakers/Headphones)     │   │
+│                       └────────────────────────────┘   │
 └────────────────────────────────────────────────────────┘
 ```
 
@@ -119,16 +120,16 @@ Search and retrieve summaries from Wikipedia.
 │                      wiki_py.py                        │
 ├────────────────────────────────────────────────────────┤
 │                                                        │
-│   ┌──────────────┐    ┌────────────────────────────┐  │
-│   │ Topic Input  │───▶│  wikipedia.summary()       │  │
-│   └──────────────┘    │  wikipedia.page()          │  │
-│                       └─────────────┬──────────────┘  │
-│                                   │                   │
-│                                   ▼                   │
-│                       ┌────────────────────────────┐  │
-│                       │     Wikipedia API          │  │
-│                       │     wikipedia.org          │  │
-│                       └────────────────────────────┘  │
+│   ┌──────────────┐    ┌────────────────────────────┐   │
+│   │ Topic Input  │───▶│  wikipedia.summary()       │   │
+│   └──────────────┘    │  wikipedia.page()          │   │
+│                       └─────────────┬──────────────┘   │
+│                                   │                    │
+│                                   ▼                    │
+│                       ┌────────────────────────────┐   │
+│                       │     Wikipedia API          │   │
+│                       │     wikipedia.org          │   │
+│                       └────────────────────────────┘   │
 └────────────────────────────────────────────────────────┘
 ```
 
@@ -155,16 +156,16 @@ Fetch latest news articles using NewsAPI.
 │                      news_repo.py                      │
 ├────────────────────────────────────────────────────────┤
 │                                                        │
-│   ┌──────────────┐    ┌────────────────────────────┐  │
-│   │   API Key    │───▶│  requests.get()             │  │
-│   └──────────────┘    │  newsapi.org/v2/everything  │  │
-│                       └─────────────┬──────────────┘  │
-│                                   │                   │
-│                                   ▼                   │
-│                       ┌────────────────────────────┐  │
-│                       │      NewsAPI Server         │  │
-│                       │      newsapi.org            │  │
-│                       └────────────────────────────┘  │
+│   ┌──────────────┐    ┌────────────────────────────┐   │
+│   │   API Key    │───▶│  requests.get()             │   │
+│   └──────────────┘    │  newsapi.org/v2/everything  │   │
+│                       └─────────────┬──────────────┘   │
+│                                   │                    │
+│                                   ▼                    │
+│                       ┌────────────────────────────┐   │
+│                       │      NewsAPI Server         │   │
+│                       │      newsapi.org            │   │
+│                       └────────────────────────────┘   │
 └────────────────────────────────────────────────────────┘
 ```
 
@@ -190,15 +191,15 @@ Control system power state (shutdown or sleep).
 │                      shut_sleep.py                     │
 ├────────────────────────────────────────────────────────┤
 │                                                        │
-│   ┌──────────────┐    ┌────────────────────────────┐  │
-│   │  os.system() │───▶│  shutdown /s /t 1          │  │
-│   └──────────────┘    │  (Windows Shutdown)        │  │
-│                       └────────────────────────────┘  │
+│   ┌──────────────┐    ┌────────────────────────────┐   │
+│   │  os.system() │───▶│  shutdown /s /t 1          │   │
+│   └──────────────┘    │  (Windows Shutdown)        │   │
+│                       └────────────────────────────┘   │
 │                                                        │
-│   ┌──────────────┐    ┌────────────────────────────┐  │
-│   │  os.system() │───▶│  rundll32 powrprof.dll      │  │
-│   └──────────────┘    │  SetSuspendState (Sleep)    │  │
-│                       └────────────────────────────┘  │
+│   ┌──────────────┐    ┌────────────────────────────┐   │
+│   │  os.system() │───▶│  rundll32 powrprof.dll      │   │
+│   └──────────────┘    │  SetSuspendState (Sleep)    │   │
+│                       └────────────────────────────┘   │
 └────────────────────────────────────────────────────────┘
 ```
 
@@ -208,6 +209,42 @@ python shut_sleep.py
 ```
 
 **Note:** Uncomment the desired function before running. Shutdown executes immediately with 1-second delay.
+
+---
+
+### 6. Startup Greeting (`say_name_on_startup.py`)
+
+Speaks a greeting message when Windows starts.
+
+**Architecture:**
+```
+┌────────────────────────────────────────────────────────┐
+│                 say_name_on_startup.py                 │
+├────────────────────────────────────────────────────────┤
+│                                                        │
+│   ┌──────────────┐    ┌────────────────────────────┐   │
+│   │  Greeting    │───▶│  Dispatch("SAPI.SpVoice")  │   │
+│   │  Text        │    │  COM Object                │   │
+│   └──────────────┘    └─────────────┬──────────────┘   │
+│                                   │                    │
+│                                   ▼                    │
+│                       ┌────────────────────────────┐   │
+│                       │   Windows Audio Output     │   │
+│                       │   (System Startup)         │   │
+│                       └────────────────────────────┘   │
+└────────────────────────────────────────────────────────┘
+```
+
+**Setup:**
+1. Copy the file to clipboard
+2. Open Run (`Win + R`) and type `shell:startup`
+3. Paste the file in the Startup folder
+4. Rename the file from `*.py` to `*.pyw` (hides console window)
+
+**Usage:**
+```python
+speak("Welcome, Mr.AJ")
+```
 
 ---
 

@@ -14,6 +14,7 @@ A collection of lightweight Python utilities for everyday tasks.
 | News API          | newsapi.org           |
 | System Control    | os (stdlib)           |
 | Image Processing  | pywhatkit             |
+| Translation       | googletrans           |
 | Platform          | Windows                |
 
 ## Project Structure
@@ -21,6 +22,7 @@ A collection of lightweight Python utilities for everyday tasks.
 ```
 MiniProjects/
 ├── README.md
+├── LICENSE
 ├── requirements.txt
 ├── send_email.py            # Email sending utility
 ├── text_to_voice.py         # Text-to-speech utility
@@ -28,7 +30,8 @@ MiniProjects/
 ├── news_repo.py             # News fetching utility
 ├── shut_sleep.py            # System control utility
 ├── say_name_on_startup.py   # Startup greeting utility
-└── png_2_txt.py             # Image to ASCII art utility
+├── png_2_txt.py             # Image to ASCII art utility
+└── trans_with_google.py     # Translation utility
 ```
 
 ---
@@ -82,7 +85,7 @@ Convert text to speech using Windows SAPI (Speech API).
 **Architecture:**
 ```
 ┌────────────────────────────────────────────────────────┐
-│                    text_to_voice.py                     │
+│                    text_to_voice.py                    │
 ├────────────────────────────────────────────────────────┤
 │                                                        │
 │   ┌──────────────┐    ┌────────────────────────────┐   │
@@ -261,7 +264,7 @@ Convert images to ASCII art using pywhatkit.
 ├────────────────────────────────────────────────────────┤
 │                                                        │
 │   ┌──────────────┐    ┌────────────────────────────┐   │
-│   │ image.png   │───▶│  pywhatkit.image_to_ascii_art│  │
+│   │ image.png    │───▶│  pywhatkit.image_to_ascii_art│  │
 │   └──────────────┘    │  OCR + Character Mapping    │   │
 │                       └─────────────┬──────────────┘   │
 │                                   │                    │
@@ -290,6 +293,43 @@ pywhatkit.image_to_ascii_art("image.png", "image.txt")
 
 ---
 
+### 8. Translator (`trans_with_google.py`)
+
+Translate text to any language using Google Translate.
+
+**Architecture:**
+```
+┌────────────────────────────────────────────────────────┐
+│                  trans_with_google.py                 │
+├────────────────────────────────────────────────────────┤
+│                                                        │
+│   ┌──────────────┐    ┌────────────────────────────┐   │
+│   │ Input Text   │───▶│  googletrans.Translator()   │   │
+│   │ (English)    │    │  src="en", dest=<target>    │   │
+│   └──────────────┘    └─────────────┬──────────────┘   │
+│                                   │                    │
+│                                   ▼                    │
+│                       ┌────────────────────────────┐   │
+│                       │     Google Translate API    │   │
+│                       │     translate.google.com    │   │
+│                       └────────────────────────────┘   │
+└────────────────────────────────────────────────────────┘
+```
+
+**Setup:**
+```bash
+pip install googletrans==4.0.0-rc1
+```
+
+**Usage:**
+```bash
+python trans_with_google.py
+```
+
+Follow the prompts to enter text and select target language. Supports 100+ languages including Hindi, Gujarati, Spanish, French, etc.
+
+---
+
 ## Installation
 
 ```bash
@@ -298,15 +338,16 @@ pip install -r requirements.txt
 
 ## Dependencies
 
-| Package     | Purpose                    | Source  |
-|-------------|---------------------------|---------|
-| requests    | HTTP client               | stdlib  |
-| pywin32     | Windows COM interface    | pypi    |
-| wikipedia   | Wikipedia API wrapper     | pypi    |
-| pywhatkit   | Image to ASCII conversion | pypi    |
-| smtplib     | Email sending            | stdlib  |
-| time        | Sleep/delay functions    | stdlib  |
-| os          | System commands          | stdlib  |
+| Package          | Purpose                    | Source  |
+|------------------|---------------------------|---------|
+| requests         | HTTP client               | stdlib  |
+| pywin32          | Windows COM interface    | pypi    |
+| wikipedia        | Wikipedia API wrapper     | pypi    |
+| pywhatkit        | Image to ASCII conversion | pypi    |
+| googletrans      | Google Translate API     | pypi    |
+| smtplib          | Email sending            | stdlib  |
+| time             | Sleep/delay functions    | stdlib  |
+| os               | System commands          | stdlib  |
 
 ---
 
@@ -321,4 +362,4 @@ pip install -r requirements.txt
 
 ## License
 
-MIT License
+MIT License - See [LICENSE](LICENSE) file for details.

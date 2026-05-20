@@ -13,6 +13,7 @@ A collection of lightweight Python utilities for everyday tasks.
 | Wikipedia API     | wikipedia (pypi)       |
 | News API          | newsapi.org           |
 | System Control    | os (stdlib)           |
+| Image Processing  | pywhatkit             |
 | Platform          | Windows                |
 
 ## Project Structure
@@ -26,7 +27,8 @@ MiniProjects/
 ├── wiki_py.py               # Wikipedia search utility
 ├── news_repo.py             # News fetching utility
 ├── shut_sleep.py            # System control utility
-└── say_name_on_startup.py   # Startup greeting utility
+├── say_name_on_startup.py   # Startup greeting utility
+└── png_2_txt.py             # Image to ASCII art utility
 ```
 
 ---
@@ -80,7 +82,7 @@ Convert text to speech using Windows SAPI (Speech API).
 **Architecture:**
 ```
 ┌────────────────────────────────────────────────────────┐
-│                    text_to_voice.py                    │
+│                    text_to_voice.py                     │
 ├────────────────────────────────────────────────────────┤
 │                                                        │
 │   ┌──────────────┐    ┌────────────────────────────┐   │
@@ -153,7 +155,7 @@ Fetch latest news articles using NewsAPI.
 **Architecture:**
 ```
 ┌────────────────────────────────────────────────────────┐
-│                      news_repo.py                      │
+│                      news_repo.py                       │
 ├────────────────────────────────────────────────────────┤
 │                                                        │
 │   ┌──────────────┐    ┌────────────────────────────┐   │
@@ -248,6 +250,46 @@ speak("Welcome, Mr.AJ")
 
 ---
 
+### 7. Image to ASCII Art (`png_2_txt.py`)
+
+Convert images to ASCII art using pywhatkit.
+
+**Architecture:**
+```
+┌────────────────────────────────────────────────────────┐
+│                      png_2_txt.py                      │
+├────────────────────────────────────────────────────────┤
+│                                                        │
+│   ┌──────────────┐    ┌────────────────────────────┐   │
+│   │ image.png   │───▶│  pywhatkit.image_to_ascii_art│  │
+│   └──────────────┘    │  OCR + Character Mapping    │   │
+│                       └─────────────┬──────────────┘   │
+│                                   │                    │
+│                                   ▼                    │
+│                       ┌────────────────────────────┐   │
+│                       │     Output: image.txt       │   │
+│                       │     (ASCII Art)             │   │
+│                       └────────────────────────────┘   │
+└────────────────────────────────────────────────────────┘
+```
+
+**Setup:**
+```bash
+pip install pywhatkit
+```
+
+**Usage:**
+```python
+import pywhatkit
+
+pywhatkit.image_to_ascii_art("image.png", "image.txt")
+```
+
+**Input:** `image.png` (any image file)
+**Output:** `image.txt` (ASCII art representation)
+
+---
+
 ## Installation
 
 ```bash
@@ -261,6 +303,7 @@ pip install -r requirements.txt
 | requests    | HTTP client               | stdlib  |
 | pywin32     | Windows COM interface    | pypi    |
 | wikipedia   | Wikipedia API wrapper     | pypi    |
+| pywhatkit   | Image to ASCII conversion | pypi    |
 | smtplib     | Email sending            | stdlib  |
 | time        | Sleep/delay functions    | stdlib  |
 | os          | System commands          | stdlib  |

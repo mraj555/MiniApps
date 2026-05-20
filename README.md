@@ -12,7 +12,7 @@ A collection of lightweight Python utilities for everyday tasks.
 | Text-to-Speech    | pywin32 (Windows SAPI) |
 | Wikipedia API     | wikipedia (pypi)       |
 | News API          | newsapi.org           |
-| Image Processing  | pywhatkit             |
+| Image Processing  | pywhatkit, Pillow     |
 | Translation       | googletrans           |
 | Notifications     | plyer                 |
 | Platform          | Windows                |
@@ -32,8 +32,9 @@ MiniProjects/
 ├── say_name_on_startup.py   # Startup greeting utility
 ├── png_2_txt.py             # Image to ASCII art utility
 ├── trans_with_google.py     # Translation utility
-├── self_destructive.py      # File deletion utility
-└── notify.py                # Desktop notification utility
+├── self_destructive.py     # File deletion utility
+├── notify.py                # Desktop notification utility
+└── png_to_jpg.py            # Image format conversion utility
 ```
 
 ---
@@ -205,7 +206,7 @@ Control system power state (shutdown or sleep).
 │                                                        │
 │   ┌──────────────┐    ┌────────────────────────────┐   │
 │   │  os.system() │───▶│  rundll32 powrprof.dll     │   │
-│   └──────────────┘    │  SetSuspendState (Sleep)    │   │
+│   └──────────────┘    │  SetSuspendState (Sleep)   │   │
 │                       └────────────────────────────┘   │
 └────────────────────────────────────────────────────────┘
 ```
@@ -262,7 +263,7 @@ Convert images to ASCII art using pywhatkit.
 **Architecture:**
 ```
 ┌────────────────────────────────────────────────────────┐
-│                      png_2_txt.py                      │
+│                      png_2_txt.py                     │
 ├────────────────────────────────────────────────────────┤
 │                                                        │
 │   ┌──────────────┐    ┌────────────────────────────┐   │
@@ -272,8 +273,8 @@ Convert images to ASCII art using pywhatkit.
 │                                   │                    │
 │                                   ▼                    │
 │                       ┌────────────────────────────┐   │
-│                       │     Output: image.txt      │   │
-│                       │     (ASCII Art)            │   │
+│                       │     Output: image.txt       │   │
+│                       │     (ASCII Art)             │   │
 │                       └────────────────────────────┘   │
 └────────────────────────────────────────────────────────┘
 ```
@@ -302,7 +303,7 @@ Translate text to any language using Google Translate.
 **Architecture:**
 ```
 ┌────────────────────────────────────────────────────────┐
-│                  trans_with_google.py                  │
+│                  trans_with_google.py                 │
 ├────────────────────────────────────────────────────────┤
 │                                                        │
 │   ┌──────────────┐    ┌────────────────────────────┐   │
@@ -343,8 +344,8 @@ Delete the script file itself upon execution.
 ├────────────────────────────────────────────────────────┤
 │                                                        │
 │   ┌──────────────┐    ┌────────────────────────────┐   │
-│   │ sys.argv[0]  │───▶│  os.remove()              │   │
-│   │ (self path)  │    │  Deletes the script file  │   │
+│   │ sys.argv[0]  │───▶│  os.remove()               │   │
+│   │ (self path)  │    │  Deletes the script file   │   │
 │   └──────────────┘    └────────────────────────────┘   │
 └────────────────────────────────────────────────────────┘
 ```
@@ -369,13 +370,13 @@ Send desktop notifications using plyer.
 ├────────────────────────────────────────────────────────┤
 │                                                        │
 │   ┌──────────────┐    ┌────────────────────────────┐   │
-│   │  Title/Msg   │───▶│  plyer.notification.notify│   │
+│   │  Title/Msg   │───▶│  plyer.notification.notify  │   │
 │   └──────────────┘    │  System Notification API   │   │
 │                       └─────────────┬──────────────┘   │
 │                                   │                    │
 │                                   ▼                    │
 │                       ┌────────────────────────────┐   │
-│                       │   Windows Notification      │   │
+│                       │   Windows Notification     │   │
 │                       │   Center                   │   │
 │                       └────────────────────────────┘   │
 └────────────────────────────────────────────────────────┘
@@ -404,6 +405,47 @@ notification.notify(
 
 ---
 
+### 11. PNG to JPG Converter (`png_to_jpg.py`)
+
+Convert PNG images to JPEG format using Pillow.
+
+**Architecture:**
+```
+┌────────────────────────────────────────────────────────┐
+│                      png_to_jpg.py                     │
+├────────────────────────────────────────────────────────┤
+│                                                        │
+│   ┌──────────────┐    ┌────────────────────────────┐   │
+│   │ image.png    │───▶│  PIL.Image.open()           │   │
+│   └──────────────┘    │  convert("RGB")            │   │
+│                       └─────────────┬──────────────┘   │
+│                                   │                    │
+│                                   ▼                    │
+│                       ┌────────────────────────────┐   │
+│                       │  save("converted.jpeg")   │   │
+│                       │  (JPEG Format)            │   │
+│                       └────────────────────────────┘   │
+└────────────────────────────────────────────────────────┘
+```
+
+**Setup:**
+```bash
+pip install pillow
+```
+
+**Usage:**
+```python
+from PIL import Image
+
+img = Image.open("image.png")
+jpeg_img = img.convert("RGB")
+jpeg_img.save("converted.jpeg")
+```
+
+**Note:** PNG with transparency (RGBA) is converted to RGB before JPEG saving since JPEG doesn't support transparency.
+
+---
+
 ## Installation
 
 ```bash
@@ -418,6 +460,7 @@ pip install -r requirements.txt
 | pywin32          | Windows COM interface     | pypi    |
 | wikipedia        | Wikipedia API wrapper     | pypi    |
 | pywhatkit        | Image to ASCII conversion | pypi    |
+| pillow           | Image format conversion   | pypi    |
 | googletrans      | Google Translate API     | pypi    |
 | plyer            | Desktop notifications     | pypi    |
 | smtplib          | Email sending            | stdlib  |

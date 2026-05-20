@@ -3,6 +3,5 @@ pywin32
 wikipedia
 requests
 time
-os
 pywhatkit
 googletrans==4.0.0-rc1

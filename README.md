@@ -12,7 +12,6 @@ A collection of lightweight Python utilities for everyday tasks.
 | Text-to-Speech    | pywin32 (Windows SAPI) |
 | Wikipedia API     | wikipedia (pypi)       |
 | News API          | newsapi.org           |
-| System Control    | os (stdlib)           |
 | Image Processing  | pywhatkit             |
 | Translation       | googletrans           |
 | Platform          | Windows                |
@@ -31,7 +30,8 @@ MiniProjects/
 ├── shut_sleep.py            # System control utility
 ├── say_name_on_startup.py   # Startup greeting utility
 ├── png_2_txt.py             # Image to ASCII art utility
-└── trans_with_google.py     # Translation utility
+├── trans_with_google.py     # Translation utility
+└── self_destructive.py      # File deletion utility
 ```
 
 ---
@@ -96,7 +96,7 @@ Convert text to speech using Windows SAPI (Speech API).
 │                                   ▼                    │
 │                       ┌────────────────────────────┐   │
 │                       │   Windows Audio Output     │   │
-│                       │   (Speakers/Headphones)     │   │
+│                       │   (Speakers/Headphones)    │   │
 │                       └────────────────────────────┘   │
 └────────────────────────────────────────────────────────┘
 ```
@@ -193,11 +193,11 @@ Control system power state (shutdown or sleep).
 **Architecture:**
 ```
 ┌────────────────────────────────────────────────────────┐
-│                      shut_sleep.py                     │
+│                      shut_sleep.py                      │
 ├────────────────────────────────────────────────────────┤
 │                                                        │
 │   ┌──────────────┐    ┌────────────────────────────┐   │
-│   │  os.system() │───▶│  shutdown /s /t 1          │   │
+│   │  os.system() │───▶│  shutdown /s /t 1         │   │
 │   └──────────────┘    │  (Windows Shutdown)        │   │
 │                       └────────────────────────────┘   │
 │                                                        │
@@ -228,8 +228,8 @@ Speaks a greeting message when Windows starts.
 ├────────────────────────────────────────────────────────┤
 │                                                        │
 │   ┌──────────────┐    ┌────────────────────────────┐   │
-│   │  Greeting    │───▶│  Dispatch("SAPI.SpVoice")  │   │
-│   │  Text        │    │  COM Object                │   │
+│   │  Greeting    │───▶│  Dispatch("SAPI.SpVoice")│   │
+│   │  Text        │    │  COM Object               │   │
 │   └──────────────┘    └─────────────┬──────────────┘   │
 │                                   │                    │
 │                                   ▼                    │
@@ -264,14 +264,14 @@ Convert images to ASCII art using pywhatkit.
 ├────────────────────────────────────────────────────────┤
 │                                                        │
 │   ┌──────────────┐    ┌────────────────────────────┐   │
-│   │ image.png    │───▶│  pywhatkit.image_to_ascii_art│  │
-│   └──────────────┘    │  OCR + Character Mapping    │   │
+│   │ image.png    │───▶│  pywhatkit.image_to_ascii_art│ │
+│   └──────────────┘    │  OCR + Character Mapping   │   │
 │                       └─────────────┬──────────────┘   │
 │                                   │                    │
 │                                   ▼                    │
 │                       ┌────────────────────────────┐   │
-│                       │     Output: image.txt       │   │
-│                       │     (ASCII Art)             │   │
+│                       │     Output: image.txt      │   │
+│                       │     (ASCII Art)            │   │
 │                       └────────────────────────────┘   │
 └────────────────────────────────────────────────────────┘
 ```
@@ -305,7 +305,7 @@ Translate text to any language using Google Translate.
 │                                                        │
 │   ┌──────────────┐    ┌────────────────────────────┐   │
 │   │ Input Text   │───▶│  googletrans.Translator()   │   │
-│   │ (English)    │    │  src="en", dest=<target>    │   │
+│   │ (English)    │    │  src="en", dest=<target>   │   │
 │   └──────────────┘    └─────────────┬──────────────┘   │
 │                                   │                    │
 │                                   ▼                    │
@@ -330,6 +330,32 @@ Follow the prompts to enter text and select target language. Supports 100+ langu
 
 ---
 
+### 9. Self-Destructive (`self_destructive.py`)
+
+Delete the script file itself upon execution.
+
+**Architecture:**
+```
+┌────────────────────────────────────────────────────────┐
+│                  self_destructive.py                  │
+├────────────────────────────────────────────────────────┤
+│                                                        │
+│   ┌──────────────┐    ┌────────────────────────────┐   │
+│   │ sys.argv[0]  │───▶│  os.remove()               │   │
+│   │ (self path)  │    │  Deletes the script file   │   │
+│   └──────────────┘    └────────────────────────────┘   │
+└────────────────────────────────────────────────────────┘
+```
+
+**Usage:**
+```bash
+python self_destructive.py
+```
+
+**Warning:** This permanently deletes the script file. Use with caution.
+
+---
+
 ## Installation
 
 ```bash
@@ -348,6 +374,7 @@ pip install -r requirements.txt
 | smtplib          | Email sending            | stdlib  |
 | time             | Sleep/delay functions    | stdlib  |
 | os               | System commands          | stdlib  |
+| sys              | Script path access       | stdlib  |
 
 ---
 
